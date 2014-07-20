@@ -11,7 +11,13 @@ ENV LC_ALL en_US.UTF-8
 RUN locale-gen en_US.UTF-8; dpkg-reconfigure locales
 
 # DEFAULT
-RUN apt-get install -y -q curl git make wget openssh-server zip tmux vim nano memcached python python-setuptools python-pip openjdk-6-jdk sqlite3 php5-common php5-cli php5-fpm
+RUN apt-get install -y -q curl git make wget openssh-server zip tmux vim nano memcached python python-setuptools python-pip openjdk-6-jdk sqlite3
+
+# PHP
+RUN add-apt-repository -y ppa:ondrej/php5
+RUN add-apt-repository -y ppa:nginx/stable
+RUN apt-get update
+RUN apt-get install -y php5-cli php5-fpm php5-mysql php5-pgsql php5-sqlite php5-curl php5-gd php5-mcrypt php5-intl php5-imap php5-tidy
 
 # RUNNING
 RUN easy_install supervisor
@@ -30,7 +36,7 @@ RUN mkdir /home/kite/.ssh
 ADD ./start.sh /start.sh
 RUN chmod 755 /start.sh
 
-EXPOSE 8000
+EXPOSE 80
 EXPOSE 22
 
 CMD ["/bin/bash", "/start.sh"]
