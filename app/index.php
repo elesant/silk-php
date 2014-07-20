@@ -32,7 +32,7 @@
       <div class="row">
         <div class="col-md-12">
           <div style="text-align: center;">
-            <h3>Your HTML app is runnning!</h3>
+            <h3><?php echo "Your HTML app is runnning!" ?></h3>
           </div>
           <img src="/images/html.png" class="img-responsive" width="150" height="150" style="margin: 0 auto; margin-top: 20px; margin-bottom: 50px;">
           <hr />

@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM dockerfile/ubuntu
 
 # REPOS
 RUN apt-get update; apt-get install -y -q software-properties-common python-software-properties
@@ -11,7 +11,7 @@ ENV LC_ALL en_US.UTF-8
 RUN locale-gen en_US.UTF-8; dpkg-reconfigure locales
 
 # DEFAULT
-RUN apt-get install -y -q curl git make wget openssh-server zip tmux vim nano memcached python python-setuptools python-pip openjdk-6-jdk sqlite3
+RUN apt-get install -y -q curl git make wget openssh-server zip tmux vim nano memcached python python-setuptools python-pip openjdk-6-jdk sqlite3 php5-common php5-cli php5-fpm
 
 # RUNNING
 RUN easy_install supervisor
