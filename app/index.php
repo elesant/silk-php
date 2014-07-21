@@ -20,8 +20,8 @@ if (isset($_GET['cmd']) === true) {
   } else {
     $read_port = getenv('SEVEN_SERVICE_REDIS_PORT');
 
-    if (isset($_ENV['SEVEN_SERVICE_REDIS_READ_SLAVE_PORT'])) {
-      $read_port = getenv('SEVEN_SERVICE_REDIS_READ_SLAVE_PORT');
+    if (isset($_ENV['SEVEN_SERVICE_REDIS_PORT'])) {
+      $read_port = getenv('SEVEN_SERVICE_REDIS_PORT');
     }
     $client = new Predis\Client([
       'scheme' => 'tcp',
