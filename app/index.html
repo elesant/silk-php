@@ -1,0 +1,24 @@
+<html ng-app="redis">
+  <head>
+    <title>Redis Interface</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+    <script src="/controllers.js"></script>
+    <script src="ui-bootstrap-tpls-0.10.0.min.js"></script>
+  </head>
+  <body ng-controller="RedisCtrl">
+    <div style="width: 50%; margin-left: 20px">
+      <h2>Redis Input (PHP Version)</h2>
+    <form>
+    <fieldset>
+    <input ng-model="key" placeholder="Key" class="form-control" type="text" name="input"><br>
+    <input ng-model="value" placeholder="Value" class="form-control" type="text" name="value"><br>
+    <button type="button" class="btn btn-primary" ng-click="controller.onRedis()">Submit</button>
+    </fieldset>
+    </form>
+    <div>
+      {{redisResponse}}
+    </div>
+    </div>
+  </body>
+</html>

@@ -1,78 +1,37 @@
-<!DOCTYPE html>
+<?
 
-<html lang="en">
+set_include_path('.:/usr/share/php:/usr/share/pear:/vendor/predis');
 
-  <head>
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-    <title>Hello HTML!</title>
+require 'predis/autoload.php';
 
-    <meta charset="utf-8">
+if (isset($_GET['cmd']) === true) {
+  header('Content-Type: application/json');
+  if ($_GET['cmd'] == 'set') {
+    $client = new Predis\Client([
+      'scheme' => 'tcp',
+      'host'   => getenv('SEVEN_SERVICE_PROXY_HOST'),
+      'port'   => getenv('SEVEN_SERVICE_REDIS_PORT'),
+    ]);
+    $client->set($_GET['key'], $_GET['value']);
+    print('{"message": "Updated"}');
+  } else {
+    $read_port = getenv('SEVEN_SERVICE_REDIS_PORT');
 
-    <!-- Enables Responsiveness -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    if (isset($_ENV['SEVEN_SERVICE_REDIS_READ_SLAVE_PORT'])) {
+      $read_port = getenv('SEVEN_SERVICE_REDIS_READ_SLAVE_PORT');
+    }
+    $client = new Predis\Client([
+      'scheme' => 'tcp',
+      'host'   => getenv('SEVEN_SERVICE_PROXY_HOST'),
+      'port'   => $read_port,
+    ]);
 
-    <!-- Sets Favicon -->
-    <link rel="icon" type="image/png" href="/images/favicon.png" />
-
-    <!-- Stylesheets -->
-    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css" />
-
-  </head>
-
-  <body>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <a href="http://www.runkite.com" target="_blank">
-            <img src="/images/logo.png" class="img-responsive" width="228" height="71" style="margin: 0 auto; margin-top: 50px; margin-bottom: 50px;">
-          </a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div style="text-align: center;">
-            <h3><?php echo "Your HTML app is runnning!" ?></h3>
-          </div>
-          <img src="/images/html.png" class="img-responsive" width="150" height="150" style="margin: 0 auto; margin-top: 20px; margin-bottom: 50px;">
-          <hr />
-        </div>
-      </div>
-      <div class="row" style="margin: 0 auto; max-width: 550px;">
-        <div class="col-md-12">
-          <h1>Next Steps:</h1>
-          <br />
-          <h3>Download Client App</h3>
-          <p class="lead">
-            We have set up an always-running static HTML website for you. To work on your website, please download our <a href="http://www.runkite.com/download" target="_blank">Client App</a>.
-          </p>
-          <p class="lead">
-            After installing the client app, it will sit on your status bar. You can manage your apps here.
-            <img src="/images/client_app.png" class="img-responsive" style="margin: 0 auto; margin-top: 30px; margin-bottom: 30px;">
-          </p>
-          <h3>Go To Folder</h3>
-          <p class="lead">
-            You can find your website's code by clicking on the "Folder" button. Your Kite workspace is in your Home directory, and it contains all of your websites' code.
-            <img src="/images/folder.png" class="img-responsive" style="margin: 0 auto; margin-top: 30px; margin-bottom: 30px;">
-          </p>
-          <h3>Edit Code</h3>
-          <p class="lead">
-            Now you can start coding with your favourite editor, any changes will be automatically sync'ed to your website within seconds.
-          </p>
-          <h3>View Website</h3>
-          <p class="lead">
-            You can click on the website icon or the row to see your website in action.
-          </p>
-          <h3>Usage</h3>
-          <p class="lead">
-            <ul>
-              <li><p class="lead">Any HTML page can be accessed through the link <code>/[folder name]/[subfolder name if any]/[HTML file name]</code>. <strong>Note: you don't need to have the ".html" extension for the link to work.</strong></p></li>
-              <li><p class="lead">If an user tries to access a page that doesn't exist, the page "404.html" will be shown.</p></li>
-          </p>
-        </div>
-      </div>
-    </div>
-
-  </body>
-
-</html>
+    $value = $client->get($_GET['key']);
+    print('{"data": "' . $value . '"}');
+  }
+} else {
+  phpinfo();
+} ?>
