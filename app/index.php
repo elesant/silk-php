@@ -1,4 +1,4 @@
-<?
+<?php
 
 set_include_path('.:/usr/share/php:/usr/share/pear:/vendor/predis');
 
