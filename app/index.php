@@ -11,20 +11,20 @@ if (isset($_GET['cmd']) === true) {
   if ($_GET['cmd'] == 'set') {
     $client = new Predis\Client([
       'scheme' => 'tcp',
-      'host'   => getenv('SERVICE_HOST'),
-      'port'   => getenv('REDISMASTER_SERVICE_PORT'),
+      'host'   => $_ENV['SERVICE_HOST'],
+      'port'   => $_ENV['REDISMASTER_SERVICE_PORT'],
     ]);
     $client->set($_GET['key'], $_GET['value']);
     print('{"message": "Updated"}');
   } else {
-    $read_port = getenv('REDISMASTER_SERVICE_PORT');
+    $read_port = $_ENV['REDISMASTER_SERVICE_PORT'];
 
     if (isset($_ENV['REDISMASTER_SERVICE_PORT'])) {
-      $read_port = getenv('REDISMASTER_SERVICE_PORT');
+      $read_port = $_ENV['REDISMASTER_SERVICE_PORT'];
     }
     $client = new Predis\Client([
       'scheme' => 'tcp',
-      'host'   => getenv('SERVICE_HOST'),
+      'host'   => $_ENV['SERVICE_HOST'],
       'port'   => $read_port,
     ]);
 
