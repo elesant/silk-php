@@ -15,15 +15,13 @@ RUN apt-get install -y -q curl git make wget openssh-server zip tmux vim nano me
 
 # PHP
 RUN add-apt-repository -y ppa:ondrej/php5
-RUN add-apt-repository -y ppa:nginx/stable
 RUN apt-get update
-RUN apt-get install -y php5-cli php5-fpm php5-mysql php5-pgsql php5-sqlite php5-curl php5-gd php5-mcrypt php5-intl php5-imap php5-tidy
+RUN apt-get install -y apache2 libapache2-mod-php5 php5-mysql php5-gd php-pear php-apc
 
 # RUNNING
 RUN easy_install supervisor
-RUN apt-get install -y -q nginx
-ADD ./configs/default /etc/nginx/sites-available/default
 ADD ./configs/supervisord.conf /etc/supervisord.conf
+ADD supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
 RUN mkdir /var/log/supervisor/
 RUN mkdir /var/run/sshd
 
