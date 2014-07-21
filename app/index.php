@@ -3,6 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+set_include_path('/home/kite/workspace');
 require 'predis/autoload.php';
 
 if (isset($_GET['cmd']) === true) {
